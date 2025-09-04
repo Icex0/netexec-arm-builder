@@ -1,4 +1,4 @@
-# Use ARM64 Debian base image
+# Use Debian base image
 FROM debian:bookworm-slim
 
 # Install system dependencies
@@ -39,10 +39,6 @@ RUN . env/bin/activate && pip install pyinstaller
 # Build NetExec binary using PyInstaller (onedir mode)
 RUN . env/bin/activate && pyinstaller --clean netexec.spec
 
-# Optionally remove Rust and build tools to reduce final image size
+# remove Rust and build tools to reduce final image size
 RUN rm -rf /root/.cargo /root/.rustup && \
     apt-get remove -y build-essential curl && apt-get autoremove -y
-
-# Default command: list contents of dist folder
-CMD ["ls", "-la", "/opt/NetExec/dist/"]
-
